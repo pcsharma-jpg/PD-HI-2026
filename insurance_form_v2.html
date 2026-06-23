@@ -500,7 +500,7 @@ function doSubmit(){
   };
 
   if(APPS_URL){
-    fetch(APPS_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+    fetch(APPS_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)})
       .then(r=>r.json())
       .then(d=>{ if(d.success) showSuccess(); else { alert("Error: "+d.error); btn.disabled=false; btn.textContent="Confirm & Submit"; }})
       .catch(()=>{ alert("Network error. Try again."); btn.disabled=false; btn.textContent="Confirm & Submit"; });
