@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Health Insurance Enrollment – ParallelDots FY 2025-26</title>
+<title>Health Insurance Enrollment – ParallelDots FY 2026-27</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#eef2f7;min-height:100vh;padding:16px}
@@ -73,7 +73,6 @@ hr{border:none;border-top:1px solid #e8eaed;margin:16px 0}
 <div class="card">
 <div class="hdr">
   <h1>Health Insurance Enrollment</h1>
-  <p>ParallelDots Technology Pvt Ltd &nbsp;·&nbsp; FY 2025-26 &nbsp;·&nbsp; Sum Insured ₹5,00,000</p>
 </div>
 <div class="body" id="app"></div>
 </div>
@@ -111,7 +110,7 @@ function showLogin(){
         onkeydown="if(event.key==='Enter')doLogin(this.value.trim().toUpperCase())">
     </div>
     <button class="btnp" onclick="doLogin($('li').value.trim().toUpperCase())">Continue</button>
-    <p class="note">Trouble? Contact HR: hr@paralleldots.com</p>
+    <p class="note">Trouble? Contact HR: pcsharma@paralleldots.com</p>
   </div>`;
   setTimeout(()=>{ const el=$("li"); if(el) el.focus(); },100);
 }
@@ -171,7 +170,7 @@ function showReview(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert ag">
-    ✅ <strong>Your record found.</strong> Details pre-filled from our 2025-26 data.
+    ✅ <strong>Your record found.</strong> Details pre-filled from our 2026-27 data.
     Review carefully — use <strong>Edit</strong> to correct anything.
   </div>
 
@@ -217,7 +216,7 @@ function showReview(){
     <span>I confirm all details above are correct. I understand that incorrect information may affect my insurance coverage.</span>
   </label>
   <button class="btnp" id="btn-sub" disabled onclick="doSubmit()">Confirm &amp; Submit</button>
-  <p class="note">Deadline: <strong>INSERT DATE HERE</strong> &nbsp;·&nbsp; Queries: hr@paralleldots.com</p>`;
+  <p class="note">Deadline: <strong>INSERT DATE HERE</strong> &nbsp;·&nbsp; Queries: pcsharma@paralleldots.com</p>`;
 }
 
 function buildFamCard(){
@@ -245,7 +244,7 @@ function showFreshForm(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert aw">
-    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2025-26 records.
+    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2026-27 records.
     Please fill all details manually using your Aadhaar card.
   </div>
 
@@ -548,7 +547,7 @@ function showSuccess(){
     Coverage: <strong>${isIn?"Opted-in ✅":"Opted-out ❌"}</strong>
     ${isIn&&(fd.spouseName||fd.child1Name)?"<br>Family members: included":""}
   </div>
-  <p class="note">For corrections, contact hr@paralleldots.com</p>`;
+  <p class="note">For corrections, contact pcsharma@paralleldots.com</p>`;
 }
 
 // ── HELPERS ───────────────────────────────────────────
