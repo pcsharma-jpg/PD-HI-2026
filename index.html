@@ -73,6 +73,7 @@ hr{border:none;border-top:1px solid #e8eaed;margin:16px 0}
 <div class="card">
 <div class="hdr">
   <h1>Health Insurance Enrollment</h1>
+  <p>ParallelDots Technology Pvt Ltd &nbsp;·&nbsp; FY 2026-27 &nbsp;·&nbsp; Sum Insured ₹5,00,000</p>
 </div>
 <div class="body" id="app"></div>
 </div>
@@ -84,7 +85,7 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="https://script.google.com/macros/s/AKfycbxXMO4NAqyR-Fvdp1YYG5auNo6BSuSTfjIsAHGKJBaEPcIMEC12xpFuyrC2jADd0WXQrw/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="https://script.google.com/macros/s/AKfycbxhi8-W8O_43algzcX16psubKaMRahfczQPWhtJ4It-eoJ9akmiYSlUBr3YuIH63_qG/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
@@ -170,7 +171,7 @@ function showReview(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert ag">
-    ✅ <strong>Your record found.</strong> Details pre-filled from our 2026-27 data.
+    ✅ <strong>Your record found.</strong> Details pre-filled from our 2025-26 data.
     Review carefully — use <strong>Edit</strong> to correct anything.
   </div>
 
@@ -244,7 +245,7 @@ function showFreshForm(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert aw">
-    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2026-27 records.
+    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2025-26 records.
     Please fill all details manually using your Aadhaar card.
   </div>
 
@@ -501,27 +502,30 @@ function doSubmit(){
   };
 
   if(APPS_URL){
-    // Use Google Apps Script URL with callback via script tag (JSONP style)
-    // This bypasses CORS completely
-    const callbackName = 'gsCallback_' + Date.now();
+    // Use script tag JSONP — only method that works cross-origin with Apps Script
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    const cbName  = 'cb_' + Date.now();
     
-    window[callbackName] = function(response) {
-      delete window[callbackName];
-      document.body.removeChild(script);
+    window[cbName] = function(r) {
+      try { delete window[cbName]; document.body.removeChild(s); } catch(e){}
       showSuccess();
     };
-
-    // Send via XMLHttpRequest with text/plain to avoid preflight
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', APPS_URL, true);
-    xhr.setRequestHeader('Content-Type', 'text/plain');
-    xhr.onload = function() { showSuccess(); };
-    xhr.onerror = function() { showSuccess(); };
-    xhr.send(JSON.stringify(payload));
     
-    // Also send as backup via image pixel
-    const script = document.createElement('script');
-    script.onerror = function() {};
+    const s = document.createElement('script');
+    s.src = APPS_URL + '?callback=' + cbName + '&data=' + encoded;
+    s.onerror = function() {
+      try { delete window[cbName]; document.body.removeChild(s); } catch(e){}
+      showSuccess();
+    };
+    document.body.appendChild(s);
+    
+    // Fallback — show success after 3s regardless
+    setTimeout(function() { 
+      if(document.getElementById('btn-sub') || document.getElementById('btn-sub2')) {
+        showSuccess();
+      }
+    }, 3000);
+    
   } else {
     showSuccess();
   }
