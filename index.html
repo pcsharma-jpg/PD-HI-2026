@@ -85,14 +85,14 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="https://script.google.com/macros/s/AKfycbxXMO4NAqyR-Fvdp1YYG5auNo6BSuSTfjIsAHGKJBaEPcIMEC12xpFuyrC2jADd0WXQrw/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="https://script.google.com/macros/s/AKfycbxhi8-W8O_43algzcX16psubKaMRahfczQPWhtJ4It-eoJ9akmiYSlUBr3YuIH63_qG/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
 // ── INIT ──────────────────────────────────────────────
 window.onload=()=>{
   const p=new URLSearchParams(location.search);
-  APPS_URL=p.get("api")||"https://script.google.com/macros/s/AKfycbxhi8-W8O_43algzcX16psubKaMRahfczQPWhtJ4It-eoJ9akmiYSlUBr3YuIH63_qG/exec";
+  // Always use hardcoded URL - ignore api parameter
   const tok=p.get("token");
   if(tok){ doLogin(atob(tok),true); } else { showLogin(); }
 };
