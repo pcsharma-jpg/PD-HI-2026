@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Health Insurance Enrollment – ParallelDots FY 2025-26</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#eef2f7;min-height:100vh;padding:16px}
+.card{max-width:660px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:0 2px 18px rgba(0,0,0,.1);overflow:hidden}
+.hdr{background:#1a73e8;color:#fff;padding:20px 28px}
+.hdr h1{font-size:18px;font-weight:700}
+.hdr p{font-size:12px;opacity:.82;margin-top:3px}
+.body{padding:22px 28px}
+.steps{display:flex;align-items:center;margin-bottom:20px}
+.step{display:flex;align-items:center;gap:5px;font-size:12px;color:#9aa0a6;white-space:nowrap}
+.step.active{color:#1a73e8;font-weight:700}
+.step.done{color:#34a853}
+.sdot{width:22px;height:22px;border-radius:50%;border:2px solid #dadce0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.step.active .sdot{border-color:#1a73e8;background:#1a73e8;color:#fff}
+.step.done  .sdot{border-color:#34a853;background:#34a853;color:#fff}
+.sline{flex:1;height:2px;background:#dadce0;margin:0 6px;min-width:8px}
+.sline.done{background:#34a853}
+.alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;line-height:1.5}
+.ai{background:#e8f0fe;color:#1557b0;border:1px solid #aecbfa}
+.as{background:#e6f4ea;color:#1e7e34;border:1px solid #a8d5b5}
+.aw{background:#fef7e0;color:#9a6700;border:1px solid #fdd663}
+.ae{background:#fce8e6;color:#c5221f;border:1px solid #f28b82}
+.ag{background:#f0faf3;color:#137333;border:1px solid #34a853}
+.sec-title{font-size:11px;font-weight:700;color:#1a73e8;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;padding-bottom:5px;border-bottom:2px solid #e8f0fe}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.row1{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:700;color:#5f6368;margin-bottom:4px}
+.field input,.field select{width:100%;padding:9px 11px;border:1.5px solid #dadce0;border-radius:8px;font-size:13px;color:#202124;transition:border-color .2s}
+.field input:focus,.field select:focus{outline:none;border-color:#1a73e8}
+.field input[readonly]{background:#f8f9fa;color:#5f6368;cursor:not-allowed}
+.toggrp{display:flex;gap:10px;margin-bottom:14px}
+.togbtn{flex:1;padding:11px 6px;border:2px solid #dadce0;border-radius:10px;cursor:pointer;text-align:center;font-size:13px;font-weight:700;color:#5f6368;transition:all .18s;line-height:1.3}
+.togbtn small{font-weight:400;font-size:11px;display:block}
+.togbtn.oi.on{border-color:#34a853;background:#e6f4ea;color:#1e8e3e}
+.togbtn.oo.on{border-color:#fbbc04;background:#fef7e0;color:#9a6700}
+.togbtn.fy.on,.togbtn.fn.on{border-color:#9c27b0;background:#f3e5f5;color:#6a0080}
+.fambox{background:#faf5ff;border:1.5px solid #ce93d8;border-radius:10px;padding:16px;margin-top:4px}
+.rc{border:1.5px solid #e8eaed;border-radius:10px;margin-bottom:12px;overflow:hidden}
+.rch{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;background:#f8f9fa;border-bottom:1px solid #e8eaed}
+.rch span{font-size:13px;font-weight:700;color:#3c4043}
+.edbtn{font-size:12px;color:#1a73e8;cursor:pointer;padding:3px 10px;border:1px solid #1a73e8;border-radius:20px;background:#fff}
+.rcb{padding:11px 14px}
+.rrow{display:flex;gap:8px;margin-bottom:7px;font-size:13px}
+.rrow:last-child{margin-bottom:0}
+.rlbl{color:#5f6368;min-width:160px;flex-shrink:0}
+.rval{color:#202124;font-weight:500}
+.rval.emp{color:#9aa0a6;font-style:italic;font-weight:400}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.boi{background:#e6f4ea;color:#1e8e3e}
+.boo{background:#fce8b2;color:#9a6700}
+.bnew{background:#e8f0fe;color:#1557b0}
+hr{border:none;border-top:1px solid #e8eaed;margin:16px 0}
+.btnp{width:100%;padding:13px;background:#1a73e8;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .18s}
+.btnp:hover{background:#1557b0}
+.btnp:disabled{background:#9e9e9e;cursor:not-allowed}
+.btns{width:100%;padding:11px;background:#fff;color:#1a73e8;border:2px solid #1a73e8;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+.btns:hover{background:#e8f0fe}
+.note{font-size:11px;color:#9aa0a6;text-align:center;margin-top:8px;line-height:1.5}
+.spin{width:34px;height:34px;border:3px solid #e8eaed;border-top-color:#1a73e8;border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.tag-existing{display:inline-block;padding:2px 8px;background:#e8f0fe;color:#1557b0;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}
+.tag-new{display:inline-block;padding:2px 8px;background:#fef7e0;color:#9a6700;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}
+@media(max-width:500px){.body{padding:16px 14px}.row2{grid-template-columns:1fr}.rlbl{min-width:120px}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="hdr">
+  <h1>Health Insurance Enrollment</h1>
+  <p>ParallelDots Technology Pvt Ltd &nbsp;·&nbsp; FY 2025-26 &nbsp;·&nbsp; Sum Insured ₹5,00,000</p>
+</div>
+<div class="body" id="app"></div>
+</div>
+
+<script>
+const DB=
+[{"i":"PD0002","n":"ANKIT NARAYAN SINGH","g":"MALE","d":"1988-11-14","e":"ankit@paralleldots.com","sn":"PRIYANSHA SENGAR","sg":"FEMALE","sd":"1992-08-20","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0003","n":"MUKTABH MAYANK SRIVASTAVA","g":"MALE","d":"1989-06-17","e":"muktabh@paralleldots.com","sn":"ANSHITA SRIVASTAVA","sg":"FEMALE","sd":"1989-08-03","c1n":"MEDHASHREE","c1g":"FEMALE","c1d":"2022-05-08","c2n":"","c2g":"","c2d":""},{"i":"PD0004","n":"AHWAN KUMAR","g":"MALE","d":"1990-10-23","e":"ahwan@paralleldots.com","sn":"SHRADDHA","sg":"FEMALE","sd":"1991-03-09","c1n":"BABY OF SHRADDHA","c1g":"FEMALE","c1d":"2024-11-16","c2n":"","c2g":"","c2d":""},{"i":"PD0009","n":"MANISH KUMAR","g":"MALE","d":"1993-07-22","e":"manish@paralleldots.com","sn":"MORVI DHURIA","sg":"FEMALE","sd":"1996-07-12","c1n":"LAVANYA","c1g":"FEMALE","c1d":"2024-03-13","c2n":"","c2g":"","c2d":""},{"i":"PD0012","n":"PRAKASH CHANDRA SHARMA","g":"MALE","d":"1995-07-25","e":"pcsharma@paralleldots.com","sn":"GURUPRIYA PARASHAR","sg":"FEMALE","sd":"1999-01-15","c1n":"IRAJ SHARMA","c1g":"MALE","c1d":"2022-07-15","c2n":"","c2g":"","c2d":""},{"i":"PD0036","n":"GAGAN GAUR","g":"MALE","d":"1994-05-10","e":"gagan@paralleldots.com","sn":"DEEPIKA DIXIT","sg":"FEMALE","sd":"1994-08-16","c1n":"ADVIT GAUR","c1g":"MALE","c1d":"2022-03-25","c2n":"","c2g":"","c2d":""},{"i":"PD0044","n":"VIPIN KUMAR GUPTA","g":"MALE","d":"1994-07-10","e":"vipin@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0047","n":"AMAN ARORA","g":"MALE","d":"1996-07-10","e":"amanarora@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0050","n":"ALOK KUMAR","g":"MALE","d":"1990-12-19","e":"alok@paralleldots.com","sn":"VANDANA DEVI","sg":"FEMALE","sd":"1997-03-20","c1n":"SHRIYANSH KUMAR","c1g":"MALE","c1d":"2023-11-30","c2n":"","c2g":"","c2d":""},{"i":"PD0054","n":"NARENDRA KUMAR","g":"MALE","d":"1996-08-11","e":"narendra@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0056","n":"PRIYANKA GARG","g":"FEMALE","d":"1992-01-09","e":"priyanka@paralleldots.com","sn":"VIKAS TIWARI","sg":"MALE","sd":"1990-03-29","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0057","n":"AYUSH KUMAR SRIVASTAVA","g":"MALE","d":"1991-01-22","e":"ayush@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0064","n":"UMESH SHARMA","g":"MALE","d":"1997-08-28","e":"umesh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0072","n":"DEEPU KUMAR","g":"MALE","d":"1997-06-18","e":"deepu@paralleldots.com","sn":"Naina Gurmukhi","sg":"FEMALE","sd":"2002-04-15","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0077","n":"SANGEETA","g":"FEMALE","d":"1993-12-08","e":"pd.sangeetagupta12@gmail.com","sn":"ASHISH","sg":"MALE","sd":"1994-09-05","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0079","n":"PARMESH","g":"MALE","d":"1997-05-13","e":"parmesh@paralleldots.com","sn":"PREETI","sg":"FEMALE","sd":"1995-05-10","c1n":"KAVYA","c1g":"FEMALE","c1d":"2020-09-28","c2n":"DEEP TANWAR","c2g":"MALE","c2d":"2022-09-19"},{"i":"PD0081","n":"NEERAJ YADAV","g":"MALE","d":"1994-10-01","e":"neeraj@paralleldots.com","sn":"SAPNA","sg":"FEMALE","sd":"2000-06-12","c1n":"TANYA","c1g":"FEMALE","c1d":"2022-10-27","c2n":"","c2g":"","c2d":""},{"i":"PD0084","n":"SUSHIL KUMAR","g":"MALE","d":"1990-12-07","e":"pd.sushilkumar@gmail.com","sn":"POOJA","sg":"FEMALE","sd":"1995-02-14","c1n":"SAANVI","c1g":"FEMALE","c1d":"2021-08-05","c2n":"SAATHVIK KUMAR","c2g":"MALE","c2d":"2025-05-09"},{"i":"PD0087","n":"SANDEEP KUMAR","g":"MALE","d":"1996-08-18","e":"pd.sandeepkumar1@gmail.com","sn":"SWETI SINGH","sg":"FEMALE","sd":"1988-07-04","c1n":"ANGEL","c1g":"FEMALE","c1d":"2011-08-23","c2n":"PRISHA","c2g":"FEMALE","c2d":"2023-09-15"},{"i":"PD0096","n":"PRAGATI VISHWAKARMA","g":"FEMALE","d":"1998-12-31","e":"pd.pragativishwakarma@gmail.com","sn":"","sg":"","sd":"","c1n":"VOMIKA SHARMA","c1g":"FEMALE","c1d":"2024-12-14","c2n":"","c2g":"","c2d":""},{"i":"PD0101","n":"RISHABH AGARWAL","g":"MALE","d":"1991-10-03","e":"rishabh@paralleldots.com","sn":"RITIKA AGNIHOTRI","sg":"FEMALE","sd":"1993-12-11","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0108","n":"KUMAR SHANTNU","g":"MALE","d":"1988-02-05","e":"kumar.shantnu@paralleldots.com","sn":"SUNITEE SINGH","sg":"FEMALE","sd":"1987-04-09","c1n":"SHWETIKA SINGH","c1g":"FEMALE","c1d":"2019-12-12","c2n":"SHRINIKA SINGH","c2g":"FEMALE","c2d":"2025-01-09"},{"i":"PD0112","n":"NITESH POONIA","g":"MALE","d":"1996-04-07","e":"nitesh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0122","n":"AMAN KUMAR","g":"MALE","d":"1995-09-22","e":"amankumar@paralleldots.com","sn":"ANUM ANAND","sg":"FEMALE","sd":"1996-09-15","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0129","n":"AKSHAY JAVERILAL JAIN","g":"MALE","d":"1995-09-13","e":"akshay.jain@paralleldots.com","sn":"SWEETY JAIN","sg":"FEMALE","sd":"1995-01-05","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0133","n":"PRATEEK SAXENA","g":"MALE","d":"1995-02-07","e":"prateeksaxena@paralleldots.com","sn":"JYOTI","sg":"FEMALE","sd":"1998-10-01","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0135","n":"PRATESH TAMHANKAR","g":"MALE","d":"1994-07-13","e":"pratesh.tamhankar@paralleldots.com","sn":"PRATIKSHA PRATESH TAMHANKAR","sg":"FEMALE","sd":"1995-12-02","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0136","n":"GOVINDA RAJBHAR","g":"MALE","d":"1996-04-12","e":"govinda.rajbhar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0138","n":"HEMAVATHI UPPALA","g":"FEMALE","d":"1997-06-15","e":"hemavathi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0144","n":"MEGHA NAITHANI","g":"FEMALE","d":"1998-07-17","e":"megha.naithani@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0146","n":"RIDHAM SHARMA","g":"FEMALE","d":"1998-09-24","e":"ridham.sharma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0149","n":"RAGHAVENDRA PRATAP","g":"MALE","d":"1997-06-17","e":"raghavendra@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0150","n":"AMAN GUPTA","g":"MALE","d":"1994-04-09","e":"amangupta@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0166","n":"PUNEET PILANIA","g":"MALE","d":"1998-11-13","e":"puneet.pilania@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0167","n":"SUYASH RABRA","g":"MALE","d":"1996-10-03","e":"suyash@paralleldots.com","sn":"SOMIYA GUPTA","sg":"FEMALE","sd":"1996-12-02","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0169","n":"KRATI SHARMA","g":"FEMALE","d":"1993-12-29","e":"krati@paralleldots.com","sn":"RAJAT JAIN","sg":"MALE","sd":"1993-10-02","c1n":"HANUSHRI JAIN","c1g":"FEMALE","c1d":"2023-03-05","c2n":"","c2g":"","c2d":""},{"i":"PD0172","n":"DEVESHKUMAR PANDEY","g":"MALE","d":"1992-01-31","e":"devesh.pandey@paralleldots.com","sn":"HEMA DEVESH PANDEY","sg":"FEMALE","sd":"1995-02-11","c1n":"DEVIKA DEVESHKUMAR PANDEY","c1g":"FEMALE","c1d":"2020-01-16","c2n":"Divyam Deveshkumar Pandey","c2g":"MALE","c2d":"2024-08-17"},{"i":"PD0175","n":"KARTIK SINGH","g":"MALE","d":"1990-01-15","e":"kartik.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0176","n":"ANKITA NAFRIA","g":"FEMALE","d":"1999-11-13","e":"ankita.nafria@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0180","n":"PRADEEP SINGH KUSHVAH","g":"MALE","d":"1998-11-15","e":"pradeep.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0182","n":"AAKASH OJHA","g":"MALE","d":"1998-11-22","e":"aakash.ojha@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0184","n":"DIGVIJAY MILIND SHINDE","g":"MALE","d":"1997-01-13","e":"digvijay.shinde@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0186","n":"SHASHI KANT","g":"MALE","d":"2000-03-13","e":"shashikant@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0189","n":"PRAKASH GANESAN","g":"MALE","d":"1994-04-23","e":"prakash.ganesan@paralleldots.com","sn":"CHITRA S","sg":"FEMALE","sd":"1998-01-06","c1n":"BABY OF CHITRA S","c1g":"MALE","c1d":"2026-01-14","c2n":"","c2g":"","c2d":""},{"i":"PD0190","n":"SHANTANU SINGH","g":"MALE","d":"1990-12-12","e":"shantanu.singh@paralleldots.com","sn":"PUJASHREE ACHARYA","sg":"FEMALE","sd":"1991-10-07","c1n":"Saachi Puja Singh","c1g":"FEMALE","c1d":"2025-04-09","c2n":"","c2g":"","c2d":""},{"i":"PD0199","n":"JUHI GARG","g":"FEMALE","d":"1993-06-08","e":"juhi.garg@paralleldots.com","sn":"SAGAR DHINGRA","sg":"MALE","sd":"1994-02-11","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0202","n":"SWETA SINGH","g":"FEMALE","d":"2001-11-30","e":"sweta.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0203","n":"SARTHAK KALE","g":"MALE","d":"2000-10-19","e":"sarthak.kale@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0210","n":"HARSHITA SRIVASTAVA","g":"FEMALE","d":"1992-09-12","e":"harshita.srivastava@paralleldots.com","sn":"MR. MANISH SONKAR","sg":"MALE","sd":"1988-05-26","c1n":"MAISHA SONKAR","c1g":"FEMALE","c1d":"2023-05-21","c2n":"","c2g":"","c2d":""},{"i":"PD0211","n":"AKSHAY BHARTI","g":"MALE","d":"1991-03-21","e":"akshay.bharti@paralleldots.com","sn":"SONAL TONK","sg":"FEMALE","sd":"1991-02-20","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0212","n":"Shivangi Tyagi","g":"FEMALE","d":"1992-11-04","e":"shivangi.tyagi@paralleldots.com","sn":"Vinod Sharma","sg":"MALE","sd":"1989-08-07","c1n":"Agastya Sharma","c1g":"MALE","c1d":"2023-08-23","c2n":"","c2g":"","c2d":""},{"i":"PD0213","n":"SATYASRITA MOHANTY","g":"FEMALE","d":"1994-04-12","e":"satyasrita.mohanty@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0222","n":"IVAN KORAH ABRAHAM","g":"MALE","d":"1990-10-26","e":"ivan@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0223","n":"GEETA BISHT","g":"FEMALE","d":"1991-09-27","e":"geeta.bisht@paralleldots.com","sn":"MR. BHAVESH SINGH BISHT","sg":"MALE","sd":"1987-11-05","c1n":"REVANSH SINGH BISHT","c1g":"MALE","c1d":"2021-10-07","c2n":"","c2g":"","c2d":""},{"i":"PD0225","n":"SEENIVASAN M","g":"MALE","d":"1999-09-26","e":"seenivasan@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0227","n":"YUVRAJ ANAND","g":"MALE","d":"1997-02-24","e":"yuvraj.anand@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0229","n":"NIKHIL PRALHAD HUMBE","g":"MALE","d":"1998-08-05","e":"nikhil.humbe@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0234","n":"LIJESH RAJESHWARAN","g":"MALE","d":"1992-07-17","e":"lijesh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0237","n":"PAVANESH PRATAP SINGH","g":"MALE","d":"1998-08-02","e":"pavanesh.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0250","n":"SAYALEE MAHADEV BENDGUDE","g":"FEMALE","d":"1996-03-13","e":"sayalee.bendgude@paralleldots.com","sn":"AJIT MAHADEV NARNAVAR","sg":"MALE","sd":"1992-12-24","c1n":"BABY OF SAYALEE","c1g":"NO GENDER","c1d":"2025-02-08","c2n":"","c2g":"","c2d":""},{"i":"PD0251","n":"RESHMA KS","g":"FEMALE","d":"1994-10-02","e":"reshma.ks@paralleldots.com","sn":"PRANAV S NAIR","sg":"MALE","sd":"1993-10-18","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0261","n":"PREETI","g":"FEMALE","d":"1999-06-13","e":"preeti@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0262","n":"BATASHEE ALOK KUMAR BERA","g":"FEMALE","d":"1996-04-10","e":"batashee.bera@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0263","n":"ROHIJIT SINHA","g":"MALE","d":"1997-12-14","e":"rohijit.sinha@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0265","n":"MISTRI MITESH D","g":"MALE","d":"1988-08-03","e":"mitesh.mistri@paralleldots.com","sn":"AVANI MISTRI","sg":"FEMALE","sd":"1990-03-01","c1n":"DHYAN MISTRI","c1g":"MALE","c1d":"2017-10-25","c2n":"","c2g":"","c2d":""},{"i":"PD0266","n":"SHUBHAM DWIVEDI","g":"MALE","d":"1997-09-15","e":"shubham.dwivedi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0267","n":"ANKUR CHOUDHURY","g":"MALE","d":"1999-10-30","e":"ankur.choudhury@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0269","n":"GAURAV KUMAR","g":"MALE","d":"1997-10-04","e":"gaurav.kumar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0272","n":"PRATHAM KUMAR JHA","g":"FEMALE","d":"1999-03-29","e":"pratham.jha@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0275","n":"Ketan Shivram Warang","g":"MALE","d":"1996-09-10","e":"ketan.warang@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0277","n":"PULLEPU CHANDRA MAHESH","g":"MALE","d":"1999-07-08","e":"mahesh.chandra@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0278","n":"MADHUR SHARMA","g":"MALE","d":"1999-08-10","e":"madhur.sharma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0279","n":"SHUBHAM KUMAR SHARMA","g":"MALE","d":"1993-07-15","e":"shubham.sharma@paralleldots.com","sn":"DEEKSHA SHARMA","sg":"FEMALE","sd":"1993-07-05","c1n":"VARTIKA SHARMA","c1g":"FEMALE","c1d":"2023-07-20","c2n":"","c2g":"","c2d":""},{"i":"PD0280","n":"SAMRIDDHI GUPTA","g":"FEMALE","d":"1999-05-16","e":"samriddhi.gupta@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0285","n":"AASIFABANU K SANDARWALE","g":"FEMALE","d":"1998-05-25","e":"asifa.banu@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0286","n":"ARIJIT PAL","g":"MALE","d":"1988-03-03","e":"arijit.pal@paralleldots.com","sn":"DEBOSREE SAHA","sg":"FEMALE","sd":"1995-03-13","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0289","n":"Aniket Bisht","g":"MALE","d":"2003-12-01","e":"aniket.bisht@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0290","n":"AJAY CHANDRAKANT KULKARNI","g":"MALE","d":"1991-08-02","e":"ajay.kulkarni@paralleldots.com","sn":"LAKSHMI BHAT","sg":"FEMALE","sd":"1990-11-09","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0293","n":"MAHAK KUSHWAHA","g":"FEMALE","d":"2002-08-18","e":"mahak.kushwaha@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0294","n":"ADARSH KASHYAP","g":"MALE","d":"2000-10-24","e":"adarsh.kashyap@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0296","n":"GAURAV SINGH RATHORE","g":"MALE","d":"1997-05-02","e":"gaurav.rathore@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0298","n":"ISRETH ANWARBASHA","g":"FEMALE","d":"1997-08-18","e":"isreth@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0299","n":"PANKHURI GARG","g":"FEMALE","d":"2000-08-03","e":"pankhuri.garg@paralleldots.com","sn":"CHIRAG SHARMA","sg":"MALE","sd":"1992-01-20","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0300","n":"DEEPANSH TRIPATHI","g":"MALE","d":"1997-09-22","e":"deepansh.tripathi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0301","n":"KESHAV CHAUHAN","g":"MALE","d":"2001-11-25","e":"keshav.chauhan@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0302","n":"VISHAL KUMAR","g":"MALE","d":"1999-07-28","e":"vishal.kumar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0305","n":"TANAY SUREKA","g":"MALE","d":"2000-06-06","e":"tanay.sureka@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0306","n":"RAGHAV SAINI","g":"MALE","d":"2003-06-23","e":"raghav.saini@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0308","n":"LUKMAN","g":"MALE","d":"1999-07-12","e":"lukman.ghazi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0309","n":"TUSHAR SAINI","g":"MALE","d":"2001-12-09","e":"tushar.saini@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0311","n":"APARNA ABHIJEET ZIMUR","g":"FEMALE","d":"1997-11-20","e":"aparna.zimur@paralleldots.com","sn":"ABHIJEET ASHOK ZIMUR","sg":"MALE","sd":"1989-06-26","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0314","n":"SIMRAN","g":"FEMALE","d":"2000-10-10","e":"simran.kumari@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0316","n":"ANURAG RAMSURAT PRAJAPATI","g":"MALE","d":"1995-10-10","e":"anurag.prajapati@paralleldots.com","sn":"SAKSHI SHAMBHOONATH PANDIT","sg":"FEMALE","sd":"1994-04-10","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0317","n":"AARSH AGRAWAL","g":"MALE","d":"1998-05-22","e":"aarsh.agrawal@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0319","n":"NEHA KUMARI","g":"FEMALE","d":"1998-01-08","e":"neha.kumari@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0320","n":"SUSHMA BURRI","g":"FEMALE","d":"2001-11-08","e":"sushma.burri@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0322","n":"PALAK KAUSHAL","g":"FEMALE","d":"2004-07-10","e":"palak.kaushal@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0323","n":"TUTHIKA BHAVANI","g":"FEMALE","d":"1997-12-03","e":"tuthika.bhavani@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0324","n":"SOUNDHARYA V","g":"FEMALE","d":"2001-04-01","e":"soundharya.v@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0326","n":"RISHABH YADAV","g":"MALE","d":"2000-10-08","e":"rishabh.yadav@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0332","n":"MONIKA SHARMA","g":"FEMALE","d":"2000-10-10","e":"monika.sharma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0333","n":"SARISA NAVEEN","g":"MALE","d":"2001-10-19","e":"sarisa.naveen@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0334","n":"ANANAD MALLIKARJUN POTABATTI","g":"MALE","d":"1997-08-10","e":"anand.potabatti@paralleldots.com","sn":"Aishwarya Narayan Bolabattin","sg":"FEMALE","sd":"2004-09-24","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0337","n":"PRASHANT SINGH","g":"MALE","d":"1998-12-07","e":"prashant.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0339","n":"SARVESH SHIVDAS DHANGAR","g":"MALE","d":"2003-03-03","e":"sarvesh.dhangar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0340","n":"VIKASH KUMAR","g":"MALE","d":"2002-01-22","e":"vikash.kumar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0341","n":"Divyansh Chandel","g":"MALE","d":"2002-07-20","e":"divyansh.chandel@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0342","n":"Mahalakshmi S","g":"FEMALE","d":"1995-04-10","e":"mahalakshmi.s@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0343","n":"Vriddhi Bhagat","g":"FEMALE","d":"1996-05-06","e":"vriddhi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0344","n":"Priya Bansal","g":"FEMALE","d":"1997-05-26","e":"priya.bansal@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0345","n":"Jyoti A Haddhannanaver","g":"FEMALE","d":"2001-04-25","e":"jyoti@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0348","n":"NITIN SHARMA","g":"MALE","d":"1998-12-17","e":"nitin.sharma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0349","n":"RIYA KAUSHAL","g":"FEMALE","d":"2002-06-21","e":"riya.kaushal@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0350","n":"PARVATHY KRISHNAN","g":"FEMALE","d":"1997-07-21","e":"parvathy@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0356","n":"Yash Raisinghani","g":"MALE","d":"2002-03-08","e":"yash.raisinghani@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0358","n":"Subham Chakraborty","g":"MALE","d":"1996-04-01","e":"subham.chakraborty@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0359","n":"Paramveer Singh Shekhawat","g":"MALE","d":"2003-03-20","e":"paramveer.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0360","n":"Gosavi Aishwarya Santosh","g":"MALE","d":"2004-07-04","e":"aishwarya.gosavi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0362","n":"Rahul Sanjay Thombare","g":"MALE","d":"1996-12-22","e":"rahul.thombare@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0363","n":"Saurabh Maulekhi","g":"MALE","d":"2003-08-19","e":"saurabh.maulekhi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0364","n":"Sagar Mehatlal Meravi","g":"MALE","d":"2005-12-13","e":"sagar.meravi@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0365","n":"Vansh Agrawal","g":"MALE","d":"2003-03-17","e":"vansh.agrawal@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0367","n":"Rishabh Singh","g":"MALE","d":"2002-07-18","e":"rishabh.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0368","n":"Shivani Vijaykumar Bhombe","g":"FEMALE","d":"2001-12-27","e":"shivani.bhombe@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0369","n":"Mishica Gupta","g":"FEMALE","d":"1990-08-20","e":"mishica.gupta@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0370","n":"Sudeepta Pritam Sarma","g":"FEMALE","d":"1996-09-24","e":"sudeepta.sarma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0372","n":"Priya Singh","g":"FEMALE","d":"2003-04-17","e":"priya.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0373","n":"Rushank Vilas Inamdar","g":"MALE","d":"1999-01-27","e":"rushank.inamdar@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0374","n":"Bhupendra S Rathore","g":"MALE","d":"2000-01-07","e":"bhupendra.rathore@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0375","n":"Shreelakshmi Iyer","g":"FEMALE","d":"1997-11-11","e":"shreelakshmi.iyer@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0376","n":"Sanglap Das","g":"MALE","d":"2004-03-14","e":"sanglap.das@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0377","n":"Kapildev Palanisamy","g":"MALE","d":"2001-03-21","e":"kapildev.p@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0378","n":"Sagar Prabhakar Dhihande","g":"MALE","d":"2002-02-02","e":"sagar.dahihande@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0379","n":"Shantanu Chakraborty","g":"MALE","d":"2002-09-14","e":"shantanu.chakraborty@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0380","n":"Ravi Saxena","g":"MALE","d":"1999-08-25","e":"ravi.saxena@paralleldots.com","sn":"Shweta Saxena","sg":"FEMALE","sd":"2001-01-01","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0381","n":"Shubh Ashish","g":"MALE","d":"2001-12-06","e":"shubh.ashish@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0382","n":"Sinchana Hm","g":"FEMALE","d":"2003-03-05","e":"sinchana.hm@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0383","n":"Karan Narendra Goswami","g":"MALE","d":"1996-03-26","e":"karan.goswami@paralleldots.com","sn":"Anjali Hemant Raval","sg":"FEMALE","sd":"1992-11-13","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0384","n":"Shristy Choudhary","g":"FEMALE","d":"2003-07-21","e":"shristy.choudhary@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0385","n":"Murzook Haneef Abdul Kader Asraf","g":"MALE","d":"2002-12-18","e":"murzook.haneef@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0386","n":"M D Alisha Shamreen","g":"FEMALE","d":"1998-07-08","e":"alisha.shamreen@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0388","n":"Abhinav Singh","g":"MALE","d":"1999-07-19","e":"pd.abhinav.singh@gmail.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0389","n":"Vishal Thakur","g":"MALE","d":"2004-07-20","e":"pd.vishalthakur@gmail.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0390","n":"Ipsha verma","g":"FEMALE","d":"2002-11-20","e":"ipsha.verma@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0391","n":"Prajwal Sunil Chaudhary","g":"MALE","d":"2003-02-16","e":"prajwal.chaudhary@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0392","n":"Chamanthi Rama Sai Pramodh","g":"MALE","d":"2002-06-23","e":"rama.sai@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0394","n":"Sreyoshi Paul","g":"FEMALE","d":"1999-09-23","e":"sreyoshi.paul@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0395","n":"Tanishq Sandeep Ladde","g":"MALE","d":"2003-09-02","e":"tanishq.ladde@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0396","n":"Vinay Srinivas Eligeti","g":"MALE","d":"2003-06-11","e":"vinay.eligeti@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0397","n":"Abhijeet Singh","g":"MALE","d":"2003-11-13","e":"abhijeet.singh@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0398","n":"Garima Rawat","g":"FEMALE","d":"2001-08-02","e":"garima.rawat@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0399","n":"Shreya Shandilya","g":"FEMALE","d":"1999-10-31","e":"shreya.shandilya@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0400","n":"Vikram Singh Rana","g":"MALE","d":"1993-10-09","e":"vikram.rana@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0401","n":"Gayathri Satish","g":"FEMALE","d":"2003-05-13","e":"gayathri.satish@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0402","n":"Rubal Gupta","g":"FEMALE","d":"2002-01-08","e":"rubal.gupta@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0403","n":"Rudraksh Saruparia","g":"MALE","d":"2003-06-11","e":"rudraksh.saruparia@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0404","n":"Vedanta Mishra","g":"FEMALE","d":"2004-06-06","e":"vedanta.mishra@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PD0406","n":"Sangam Sai Anish","g":"MALE","d":"2005-08-19","e":"saianish.sangam@paralleldots.com","sn":"","sg":"","sd":"","c1n":"","c1g":"","c1d":"","c2n":"","c2g":"","c2d":""},{"i":"PDC0103","n":"DEEPAK SHARMA","g":"MALE","d":"1994-09-03","e":"pd.deepaksharma3994@gmail.com","sn":"KHUSHBU SHARMA","sg":"FEMALE","sd":"2001-11-17","c1n":"DEEPSHIKHA SHARMA","c1g":"FEMALE","c1d":"2021-10-19","c2n":"PAVNI SHARMA","c2g":"FEMALE","c2d":"2023-11-10"},{"i":"PD0355","n":"Virender","g":"MALE","d":"1996-08-13","e":"pd.rathivirender1313@gmail.com","sn":"Nikita","sg":"FEMALE","sd":"2004-02-04","c1n":"Tanishq","c1g":"MALE","c1d":"2024-03-02","c2n":"","c2g":"","c2d":""}];
+// Key map: i=empId, n=name, g=gender, d=dob, e=email
+//          sn/sg/sd = spouse name/gender/dob
+//          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
+
+let APPS_URL="", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+const app=()=>document.getElementById("app");
+const $=id=>document.getElementById(id);
+
+// ── INIT ──────────────────────────────────────────────
+window.onload=()=>{
+  const p=new URLSearchParams(location.search);
+  APPS_URL=p.get("api")||"";
+  const tok=p.get("token");
+  if(tok){ doLogin(atob(tok),true); } else { showLogin(); }
+};
+
+// ── SCREEN: LOGIN ─────────────────────────────────────
+function showLogin(){
+  app().innerHTML=`
+  <div style="max-width:380px;margin:0 auto;padding:8px 0">
+    <div class="alert ai">
+      <strong>Existing employees:</strong> Enter your Employee ID — data will auto-fill.<br>
+      <strong>New employees:</strong> Enter your new Employee ID — you will fill the form manually.
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Employee ID *</label>
+      <input id="li" type="text" placeholder="e.g. PD0012" style="text-transform:uppercase;font-size:15px;padding:11px 14px"
+        onkeydown="if(event.key==='Enter')doLogin(this.value.trim().toUpperCase())">
+    </div>
+    <button class="btnp" onclick="doLogin($('li').value.trim().toUpperCase())">Continue</button>
+    <p class="note">Trouble? Contact HR: hr@paralleldots.com</p>
+  </div>`;
+  setTimeout(()=>{ const el=$("li"); if(el) el.focus(); },100);
+}
+
+function doLogin(id, silent){
+  if(!id){ if(!silent) alert("Please enter your Employee ID"); return; }
+  id = id.toUpperCase();
+
+  // Search in DB
+  const found = DB.find(e=>e.i===id);
+
+  if(found){
+    // ── EXISTING EMPLOYEE ──
+    isNewEmp = false;
+    emp = found;
+    fd = {
+      empId:id, name:emp.n, gender:emp.g, dob:emp.d, email:emp.e,
+      coverage:"",
+      spouseName:emp.sn,   spouseGender:emp.sg, spouseDob:emp.sd,
+      child1Name:emp.c1n,  child1Gender:emp.c1g, child1Dob:emp.c1d,
+      child2Name:emp.c2n,  child2Gender:emp.c2g, child2Dob:emp.c2d,
+    };
+    showReview();
+  } else {
+    // ── NEW EMPLOYEE — blank form ──
+    isNewEmp = true;
+    emp = null;
+    fd = {
+      empId:id, name:"", gender:"", dob:"", email:"",
+      coverage:"",
+      spouseName:"", spouseGender:"", spouseDob:"",
+      child1Name:"", child1Gender:"", child1Dob:"",
+      child2Name:"", child2Gender:"", child2Dob:"",
+    };
+    coverage=null; famMode=null;
+    showFreshForm();
+  }
+}
+
+// ── SCREEN: REVIEW (existing employees) ───────────────
+function showReview(){
+  const hasFam = fd.spouseName||fd.child1Name||fd.child2Name;
+  const famCard = hasFam
+    ? buildFamCard()
+    : `<div class="rc">
+        <div class="rch"><span>Family Members</span><button class="edbtn" onclick="editSection('family')">Edit / Add</button></div>
+        <div class="rcb"><div class="rrow"><span class="rlbl">Members covered</span>
+          <span class="rval emp">No family in records — click Edit to add</span></div></div>
+       </div>`;
+
+  let covBadge = fd.coverage
+    ? (fd.coverage==="opt-in"
+        ? '<span class="badge boi">Opted-in</span>'
+        : '<span class="badge boo">Opted-out</span>')
+    : '<span class="rval emp">Please select below ↓</span>';
+
+  app().innerHTML=`
+  ${steps(1)}
+  <div class="alert ag">
+    ✅ <strong>Your record found.</strong> Details pre-filled from our 2025-26 data.
+    Review carefully — use <strong>Edit</strong> to correct anything.
+  </div>
+
+  <div class="rc">
+    <div class="rch">
+      <span>Employee Details <span class="tag-existing">Existing</span></span>
+      <button class="edbtn" onclick="editSection('emp')">Edit</button>
+    </div>
+    <div class="rcb">
+      ${rrow("Employee ID", fd.empId)}
+      ${rrow("Name (as per Aadhaar)", fd.name)}
+      ${rrow("Date of Birth", fmtD(fd.dob))}
+      ${rrow("Gender", fd.gender)}
+    </div>
+  </div>
+
+  ${famCard}
+
+  <div class="rc">
+    <div class="rch"><span>Coverage Selection</span></div>
+    <div class="rcb">
+      <div class="rrow"><span class="rlbl">Enrollment</span><span class="rval" id="cov-badge">${covBadge}</span></div>
+      <div style="margin-top:10px">
+        <div class="toggrp">
+          <div class="togbtn oi ${fd.coverage==='opt-in'?'on':''}" onclick="setCov('opt-in')">
+            ✅ Opt-in<small>Enroll in insurance</small>
+          </div>
+          <div class="togbtn oo ${fd.coverage==='opt-out'?'on':''}" onclick="setCov('opt-out')">
+            ❌ Opt-out<small>Do not enroll</small>
+          </div>
+        </div>
+        <div id="oo-note" style="display:${fd.coverage==='opt-out'?'block':'none'}">
+          <div class="alert aw">You are choosing NOT to enroll. This will be saved as Opt-out.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:#3c4043;margin-bottom:14px">
+    <input type="checkbox" id="chk" style="margin-top:2px;width:16px;height:16px;cursor:pointer"
+      onchange="$('btn-sub').disabled=!this.checked">
+    <span>I confirm all details above are correct. I understand that incorrect information may affect my insurance coverage.</span>
+  </label>
+  <button class="btnp" id="btn-sub" disabled onclick="doSubmit()">Confirm &amp; Submit</button>
+  <p class="note">Deadline: <strong>INSERT DATE HERE</strong> &nbsp;·&nbsp; Queries: hr@paralleldots.com</p>`;
+}
+
+function buildFamCard(){
+  let h=`<div class="rc"><div class="rch"><span>Family Members</span>
+    <button class="edbtn" onclick="editSection('family')">Edit</button></div><div class="rcb">`;
+  if(fd.spouseName) h+=rrow("Spouse Name",    fd.spouseName)+rrow("Spouse DOB", fmtD(fd.spouseDob));
+  if(fd.child1Name) h+=rrow("Child 1 Name",   fd.child1Name)+rrow("Child 1 DOB",fmtD(fd.child1Dob));
+  if(fd.child2Name) h+=rrow("Child 2 Name",   fd.child2Name)+rrow("Child 2 DOB",fmtD(fd.child2Dob));
+  return h+'</div></div>';
+}
+
+function setCov(val){
+  fd.coverage=val;
+  document.querySelectorAll(".togbtn.oi,.togbtn.oo").forEach(b=>b.classList.remove("on"));
+  document.querySelector(".togbtn."+(val==="opt-in"?"oi":"oo")).classList.add("on");
+  $("oo-note").style.display = val==="opt-out"?"block":"none";
+  $("cov-badge").innerHTML = val==="opt-in"
+    ? '<span class="badge boi">Opted-in</span>'
+    : '<span class="badge boo">Opted-out</span>';
+}
+
+// ── SCREEN: FRESH FORM (new employees) ────────────────
+function showFreshForm(){
+  famMode = null;
+  app().innerHTML=`
+  ${steps(1)}
+  <div class="alert aw">
+    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2025-26 records.
+    Please fill all details manually using your Aadhaar card.
+  </div>
+
+  <div class="sec-title">Your Details <span class="tag-new">New Employee</span></div>
+  <div class="row2">
+    <div class="field"><label>Employee ID</label><input type="text" value="${fd.empId}" readonly></div>
+    <div class="field"><label>Gender *</label>
+      <select id="f-g"><option value="">— select —</option><option>MALE</option><option>FEMALE</option><option>OTHER</option></select>
+    </div>
+  </div>
+  <div class="row1">
+    <div class="field"><label>Full Name as per Aadhaar *</label>
+      <input type="text" id="f-n" placeholder="Exact name as on Aadhaar card" style="text-transform:uppercase"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>Date of Birth (Aadhaar) *</label><input type="date" id="f-d"></div>
+    <div class="field"><label>Work Email *</label><input type="email" id="f-e" placeholder="name@paralleldots.com"></div>
+  </div>
+
+  <div class="sec-title">Coverage Selection</div>
+  <div class="toggrp">
+    <div class="togbtn oi" id="cov-oi" onclick="setCovFresh('opt-in')">✅ Opt-in<small>Enroll in insurance</small></div>
+    <div class="togbtn oo" id="cov-oo" onclick="setCovFresh('opt-out')">❌ Opt-out<small>Do not enroll</small></div>
+  </div>
+  <div id="oo-note2" style="display:none">
+    <div class="alert aw">You are choosing NOT to enroll. This will be saved as Opt-out.</div>
+  </div>
+
+  <div id="fam-sec" style="display:none">
+    <div class="sec-title">Family Members</div>
+    <div class="toggrp">
+      <div class="togbtn fy" id="ff-y" onclick="setFam(true)">Add family<small>Spouse &amp; children</small></div>
+      <div class="togbtn fn" id="ff-n" onclick="setFam(false)">Self only<small>No family to add</small></div>
+    </div>
+    ${famFieldsHtml()}
+  </div>
+
+  <hr>
+  <button class="btnp" onclick="saveFresh()">Review &amp; Submit</button>
+  <p class="note">All * fields are mandatory</p>`;
+}
+
+function setCovFresh(val){
+  coverage=val;
+  $("cov-oi").classList.toggle("on", val==="opt-in");
+  $("cov-oo").classList.toggle("on", val==="opt-out");
+  $("oo-note2").style.display   = val==="opt-out"?"block":"none";
+  $("fam-sec").style.display    = val==="opt-in" ?"block":"none";
+}
+
+function saveFresh(){
+  const n  = $("f-n")?.value.trim().toUpperCase();
+  const g  = $("f-g")?.value;
+  const d  = $("f-d")?.value;
+  const e  = $("f-e")?.value.trim();
+  if(!n){ alert("Name is required"); return; }
+  if(!g||g==="— select —"){ alert("Gender is required"); return; }
+  if(!d){ alert("Date of Birth is required"); return; }
+  if(!e){ alert("Email is required"); return; }
+  if(!coverage){ alert("Please select Opt-in or Opt-out"); return; }
+
+  fd.name=n; fd.gender=g; fd.dob=d; fd.email=e; fd.coverage=coverage;
+
+  if(coverage==="opt-in" && famMode){
+    fd.spouseName   = ($("f-sn")?.value||"").trim().toUpperCase();
+    fd.spouseGender = $("f-sg")?.value||"";
+    fd.spouseDob    = $("f-sd")?.value||"";
+    fd.child1Name   = ($("f-c1n")?.value||"").trim().toUpperCase();
+    fd.child1Gender = $("f-c1g")?.value||"";
+    fd.child1Dob    = $("f-c1d")?.value||"";
+    fd.child2Name   = ($("f-c2n")?.value||"").trim().toUpperCase();
+    fd.child2Gender = $("f-c2g")?.value||"";
+    fd.child2Dob    = $("f-c2d")?.value||"";
+  } else {
+    fd.spouseName=fd.spouseGender=fd.spouseDob="";
+    fd.child1Name=fd.child1Gender=fd.child1Dob="";
+    fd.child2Name=fd.child2Gender=fd.child2Dob="";
+  }
+  showFreshReview();
+}
+
+function showFreshReview(){
+  const hasFam = fd.spouseName||fd.child1Name||fd.child2Name;
+  app().innerHTML=`
+  ${steps(2)}
+  <div class="alert ai">Please review your details before final submission.</div>
+
+  <div class="rc">
+    <div class="rch"><span>Your Details <span class="tag-new">New Employee</span></span>
+      <button class="edbtn" onclick="showFreshForm()">Edit</button></div>
+    <div class="rcb">
+      ${rrow("Employee ID", fd.empId)}
+      ${rrow("Name (Aadhaar)", fd.name)}
+      ${rrow("Date of Birth", fmtD(fd.dob))}
+      ${rrow("Gender", fd.gender)}
+      ${rrow("Email", fd.email)}
+    </div>
+  </div>
+
+  <div class="rc">
+    <div class="rch"><span>Coverage</span></div>
+    <div class="rcb">
+      ${rrow("Enrollment", fd.coverage==="opt-in"
+        ? '<span class="badge boi">Opted-in</span>'
+        : '<span class="badge boo">Opted-out</span>')}
+    </div>
+  </div>
+
+  ${hasFam ? buildFamCard() : ""}
+
+  <hr>
+  <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:#3c4043;margin-bottom:14px">
+    <input type="checkbox" id="chk2" style="margin-top:2px;width:16px;height:16px;cursor:pointer"
+      onchange="$('btn-sub2').disabled=!this.checked">
+    <span>I confirm all details above are correct as per my Aadhaar card.</span>
+  </label>
+  <button class="btnp" id="btn-sub2" disabled onclick="doSubmit()">Confirm &amp; Submit</button>
+  <button class="btns" onclick="showFreshForm()">Edit Details</button>`;
+}
+
+// ── SCREEN: EDIT (existing employee sections) ─────────
+function editSection(sec){
+  app().innerHTML=`
+  ${steps(2)}
+  <div class="alert aw">Edit carefully — use exact name/DOB from Aadhaar card.</div>
+  ${sec==="emp"  ? empEditHtml()    : ""}
+  ${sec==="family" ? famEditHtml()  : ""}
+  <hr>
+  <button class="btnp" onclick="saveEdit('${sec}')">Save &amp; Back to Review</button>
+  <button class="btns" onclick="showReview()">Cancel</button>`;
+
+  if(sec==="emp"){
+    $("e-n").value = fd.name;
+    $("e-g").value = fd.gender;
+    $("e-d").value = fd.dob;
+  }
+  if(sec==="family"){
+    $("e-sn").value  = fd.spouseName;
+    $("e-sg").value  = fd.spouseGender;
+    $("e-sd").value  = fd.spouseDob;
+    $("e-c1n").value = fd.child1Name;
+    $("e-c1g").value = fd.child1Gender;
+    $("e-c1d").value = fd.child1Dob;
+    $("e-c2n").value = fd.child2Name;
+    $("e-c2g").value = fd.child2Gender;
+    $("e-c2d").value = fd.child2Dob;
+    if(fd.spouseName||fd.child1Name||fd.child2Name) setFam(true);
+  }
+}
+
+function empEditHtml(){
+  return `<div class="sec-title">Employee Details</div>
+  <div class="row2">
+    <div class="field"><label>Employee ID</label><input value="${fd.empId}" readonly></div>
+    <div class="field"><label>Gender</label>
+      <select id="e-g"><option>MALE</option><option>FEMALE</option><option>OTHER</option></select></div>
+  </div>
+  <div class="row1"><div class="field"><label>Name as per Aadhaar *</label>
+    <input type="text" id="e-n" placeholder="Exact name on Aadhaar"></div></div>
+  <div class="row2"><div class="field"><label>Date of Birth (Aadhaar) *</label>
+    <input type="date" id="e-d"></div></div>`;
+}
+
+function famEditHtml(){
+  return `<div class="sec-title">Family Members</div>
+  <div class="toggrp">
+    <div class="togbtn fy" id="ff-y" onclick="setFam(true)">Add / Edit family<small>Spouse &amp; children</small></div>
+    <div class="togbtn fn" id="ff-n" onclick="setFam(false)">Self only<small>Remove all family</small></div>
+  </div>
+  ${famFieldsHtml()}`;
+}
+
+function famFieldsHtml(){
+  return `<div id="fam-fields" style="display:none"><div class="fambox">
+  <div class="sec-title" style="margin-top:0;border-color:#ce93d8">Spouse</div>
+  <div class="row1"><div class="field"><label>Spouse Name (Aadhaar)</label>
+    <input type="text" id="f-sn" placeholder="Leave blank if not applicable"></div></div>
+  <div class="row2">
+    <div class="field"><label>Spouse Gender</label>
+      <select id="f-sg"><option value="">—</option><option>MALE</option><option>FEMALE</option></select></div>
+    <div class="field"><label>Spouse DOB</label><input type="date" id="f-sd"></div>
+  </div>
+  <div class="sec-title" style="border-color:#ce93d8">Child 1</div>
+  <div class="row1"><div class="field"><label>Child 1 Name (Aadhaar / Birth Certificate)</label>
+    <input type="text" id="f-c1n" placeholder="Leave blank if not applicable"></div></div>
+  <div class="row2">
+    <div class="field"><label>Child 1 Gender</label>
+      <select id="f-c1g"><option value="">—</option><option>MALE</option><option>FEMALE</option></select></div>
+    <div class="field"><label>Child 1 DOB</label><input type="date" id="f-c1d"></div>
+  </div>
+  <div class="sec-title" style="border-color:#ce93d8">Child 2</div>
+  <div class="row1"><div class="field"><label>Child 2 Name (Aadhaar / Birth Certificate)</label>
+    <input type="text" id="f-c2n" placeholder="Leave blank if not applicable"></div></div>
+  <div class="row2">
+    <div class="field"><label>Child 2 Gender</label>
+      <select id="f-c2g"><option value="">—</option><option>MALE</option><option>FEMALE</option></select></div>
+    <div class="field"><label>Child 2 DOB</label><input type="date" id="f-c2d"></div>
+  </div>
+  </div></div>`;
+}
+
+function setFam(show){
+  famMode=show;
+  const yb=$("ff-y"), nb=$("ff-n"), ff=$("fam-fields")||$("fam-fields");
+  if(yb){ yb.classList.toggle("on",show); nb.classList.toggle("on",!show); }
+  // find the fam-fields div (could be in edit or fresh form)
+  const fd_el = document.getElementById("fam-fields");
+  if(fd_el) fd_el.style.display = show?"block":"none";
+}
+
+function saveEdit(sec){
+  if(sec==="emp"){
+    if(!$("e-n").value.trim()){ alert("Name is required"); return; }
+    if(!$("e-d").value){ alert("DOB is required"); return; }
+    fd.name  =$("e-n").value.trim().toUpperCase();
+    fd.gender=$("e-g").value;
+    fd.dob   =$("e-d").value;
+  }
+  if(sec==="family"){
+    if(famMode){
+      fd.spouseName   =($("f-sn")?.value||"").trim().toUpperCase();
+      fd.spouseGender =$("f-sg")?.value||"";
+      fd.spouseDob    =$("f-sd")?.value||"";
+      fd.child1Name   =($("f-c1n")?.value||"").trim().toUpperCase();
+      fd.child1Gender =$("f-c1g")?.value||"";
+      fd.child1Dob    =$("f-c1d")?.value||"";
+      fd.child2Name   =($("f-c2n")?.value||"").trim().toUpperCase();
+      fd.child2Gender =$("f-c2g")?.value||"";
+      fd.child2Dob    =$("f-c2d")?.value||"";
+    } else {
+      fd.spouseName=fd.spouseGender=fd.spouseDob="";
+      fd.child1Name=fd.child1Gender=fd.child1Dob="";
+      fd.child2Name=fd.child2Gender=fd.child2Dob="";
+    }
+  }
+  showReview();
+}
+
+// ── SUBMIT ────────────────────────────────────────────
+function doSubmit(){
+  if(!fd.coverage){ alert("Please select Opt-in or Opt-out"); return; }
+  const btnId = isNewEmp?"btn-sub2":"btn-sub";
+  const btn = $(btnId);
+  btn.disabled=true; btn.textContent="Submitting…";
+
+  const payload = {
+    empId:fd.empId, name:fd.name, gender:fd.gender, dob:fd.dob,
+    email:fd.email, coverage:fd.coverage, isNew:isNewEmp,
+    spouseName:fd.spouseName,   spouseGender:fd.spouseGender, spouseDob:fd.spouseDob,
+    child1Name:fd.child1Name,   child1Gender:fd.child1Gender, child1Dob:fd.child1Dob,
+    child2Name:fd.child2Name,   child2Gender:fd.child2Gender, child2Dob:fd.child2Dob,
+  };
+
+  if(APPS_URL){
+    fetch(APPS_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+      .then(r=>r.json())
+      .then(d=>{ if(d.success) showSuccess(); else { alert("Error: "+d.error); btn.disabled=false; btn.textContent="Confirm & Submit"; }})
+      .catch(()=>{ alert("Network error. Try again."); btn.disabled=false; btn.textContent="Confirm & Submit"; });
+  } else {
+    showSuccess(); // offline/test mode
+  }
+}
+
+// ── SCREEN: SUCCESS ───────────────────────────────────
+function showSuccess(){
+  const isIn=fd.coverage==="opt-in";
+  app().innerHTML=`
+  ${steps(3)}
+  <div style="text-align:center;padding:24px 10px">
+    <div style="font-size:52px;margin-bottom:10px">✅</div>
+    <p style="font-size:18px;font-weight:700;color:#1e8e3e;margin-bottom:6px">Submitted Successfully!</p>
+    <p style="font-size:13px;color:#5f6368;line-height:1.6">
+      ${isIn?"Your enrollment has been recorded. HR will contact you if additional documents are needed."
+             :"Your opt-out has been recorded. You will not be covered under the group policy."}
+    </p>
+  </div>
+  <div class="alert as">
+    <strong>Summary:</strong><br>
+    ${fd.name} &nbsp;|&nbsp; ID: ${fd.empId}
+    ${isNewEmp?' <span class="badge bnew">New Employee</span>':''}<br>
+    Coverage: <strong>${isIn?"Opted-in ✅":"Opted-out ❌"}</strong>
+    ${isIn&&(fd.spouseName||fd.child1Name)?"<br>Family members: included":""}
+  </div>
+  <p class="note">For corrections, contact hr@paralleldots.com</p>`;
+}
+
+// ── HELPERS ───────────────────────────────────────────
+function steps(a){
+  const s=(n,l)=>`<div class="step ${n<a?'done':n===a?'active':''}">
+    <div class="sdot">${n<a?'✓':n}</div><span>${l}</span></div>`;
+  const l=(n)=>`<div class="sline ${n<a?'done':''}"></div>`;
+  return `<div class="steps">${s(1,"Review")}${l(1)}${s(2,"Edit")}${l(2)}${s(3,"Done")}</div>`;
+}
+function rrow(lbl,val){
+  const e=!val||val==="—";
+  return `<div class="rrow"><span class="rlbl">${lbl}</span>
+    <span class="rval${e?' emp':''}">${e?"Not provided":val}</span></div>`;
+}
+function fmtD(d){
+  if(!d) return "";
+  try{ return new Date(d).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}); }
+  catch(e){ return d; }
+}
+</script>
+</body>
+</html>
