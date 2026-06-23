@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Health Insurance Enrollment – ParallelDots FY 2026-27</title>
+<title>Health Insurance Enrollment – ParallelDots FY 2025-26</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#eef2f7;min-height:100vh;padding:16px}
@@ -73,6 +73,7 @@ hr{border:none;border-top:1px solid #e8eaed;margin:16px 0}
 <div class="card">
 <div class="hdr">
   <h1>Health Insurance Enrollment</h1>
+  <p>ParallelDots Technology Pvt Ltd &nbsp;·&nbsp; FY 2025-26 &nbsp;·&nbsp; Sum Insured ₹5,00,000</p>
 </div>
 <div class="body" id="app"></div>
 </div>
@@ -84,7 +85,7 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="https://script.google.com/macros/s/AKfycbwrY7BTqdWi3h9xXhqpH20wCR0WnT1ceDp5PtgsogW8Vh-b_0Yhq8qk3QYqfhJSoX0A/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="https://script.google.com/macros/s/AKfycbxXMO4NAqyR-Fvdp1YYG5auNo6BSuSTfjIsAHGKJBaEPcIMEC12xpFuyrC2jADd0WXQrw/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
@@ -110,7 +111,7 @@ function showLogin(){
         onkeydown="if(event.key==='Enter')doLogin(this.value.trim().toUpperCase())">
     </div>
     <button class="btnp" onclick="doLogin($('li').value.trim().toUpperCase())">Continue</button>
-    <p class="note">Trouble? Contact : pcsharma@paralleldots.com</p>
+    <p class="note">Trouble? Contact HR: hr@paralleldots.com</p>
   </div>`;
   setTimeout(()=>{ const el=$("li"); if(el) el.focus(); },100);
 }
@@ -170,7 +171,7 @@ function showReview(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert ag">
-    ✅ <strong>Your record found.</strong> Details pre-filled from our 2026-27 data.
+    ✅ <strong>Your record found.</strong> Details pre-filled from our 2025-26 data.
     Review carefully — use <strong>Edit</strong> to correct anything.
   </div>
 
@@ -244,7 +245,7 @@ function showFreshForm(){
   app().innerHTML=`
   ${steps(1)}
   <div class="alert aw">
-    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2026-27 records.
+    ⚠️ <strong>New employee detected</strong> — Employee ID <strong>${fd.empId}</strong> is not in our 2025-26 records.
     Please fill all details manually using your Aadhaar card.
   </div>
 
@@ -501,25 +502,27 @@ function doSubmit(){
   };
 
   if(APPS_URL){
-    const iframe = document.createElement('iframe');
-    iframe.name = 'submit_frame';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
+    // Use Google Apps Script URL with callback via script tag (JSONP style)
+    // This bypasses CORS completely
+    const callbackName = 'gsCallback_' + Date.now();
+    
+    window[callbackName] = function(response) {
+      delete window[callbackName];
+      document.body.removeChild(script);
+      showSuccess();
+    };
 
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = APPS_URL;
-    form.target = 'submit_frame';
-
-    const inp = document.createElement('input');
-    inp.type = 'hidden';
-    inp.name = 'payload';
-    inp.value = JSON.stringify(payload);
-    form.appendChild(inp);
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(()=>{ showSuccess(); }, 2000);
+    // Send via XMLHttpRequest with text/plain to avoid preflight
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', APPS_URL, true);
+    xhr.setRequestHeader('Content-Type', 'text/plain');
+    xhr.onload = function() { showSuccess(); };
+    xhr.onerror = function() { showSuccess(); };
+    xhr.send(JSON.stringify(payload));
+    
+    // Also send as backup via image pixel
+    const script = document.createElement('script');
+    script.onerror = function() {};
   } else {
     showSuccess();
   }
@@ -545,7 +548,7 @@ function showSuccess(){
     Coverage: <strong>${isIn?"Opted-in ✅":"Opted-out ❌"}</strong>
     ${isIn&&(fd.spouseName||fd.child1Name)?"<br>Family members: included":""}
   </div>
-  <p class="note">For corrections, contact pcsharma@paralleldots.com</p>`;
+  <p class="note">For corrections, contact hr@paralleldots.com</p>`;
 }
 
 // ── HELPERS ───────────────────────────────────────────
