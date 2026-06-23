@@ -85,14 +85,14 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="https://script.google.com/macros/s/AKfycbxhi8-W8O_43algzcX16psubKaMRahfczQPWhtJ4It-eoJ9akmiYSlUBr3YuIH63_qG/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="https://script.google.com/macros/s/AKfycbxXMO4NAqyR-Fvdp1YYG5auNo6BSuSTfjIsAHGKJBaEPcIMEC12xpFuyrC2jADd0WXQrw/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
 // ── INIT ──────────────────────────────────────────────
 window.onload=()=>{
   const p=new URLSearchParams(location.search);
-  APPS_URL=p.get("api")||"";
+  APPS_URL=p.get("api")||"https://script.google.com/macros/s/AKfycbxhi8-W8O_43algzcX16psubKaMRahfczQPWhtJ4It-eoJ9akmiYSlUBr3YuIH63_qG/exec";
   const tok=p.get("token");
   if(tok){ doLogin(atob(tok),true); } else { showLogin(); }
 };
@@ -502,30 +502,13 @@ function doSubmit(){
   };
 
   if(APPS_URL){
-    // Use script tag JSONP — only method that works cross-origin with Apps Script
     const encoded = encodeURIComponent(JSON.stringify(payload));
-    const cbName  = 'cb_' + Date.now();
-    
-    window[cbName] = function(r) {
-      try { delete window[cbName]; document.body.removeChild(s); } catch(e){}
-      showSuccess();
-    };
-    
-    const s = document.createElement('script');
-    s.src = APPS_URL + '?callback=' + cbName + '&data=' + encoded;
-    s.onerror = function() {
-      try { delete window[cbName]; document.body.removeChild(s); } catch(e){}
-      showSuccess();
-    };
-    document.body.appendChild(s);
-    
-    // Fallback — show success after 3s regardless
-    setTimeout(function() { 
-      if(document.getElementById('btn-sub') || document.getElementById('btn-sub2')) {
-        showSuccess();
-      }
-    }, 3000);
-    
+    const url = APPS_URL + '?data=' + encoded;
+    const img = new Image();
+    img.onload = function(){ showSuccess(); };
+    img.onerror = function(){ showSuccess(); };
+    img.src = url;
+    setTimeout(function(){ showSuccess(); }, 3000);
   } else {
     showSuccess();
   }
