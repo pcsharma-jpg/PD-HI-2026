@@ -84,7 +84,7 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="https://script.google.com/macros/s/AKfycbybTxWh-cqoF3w39itWQ8YRbQFWcp1x8K2t8ezk_hdfmZOfHS_5pmKYKQXUkYciWuhI/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
@@ -110,7 +110,7 @@ function showLogin(){
         onkeydown="if(event.key==='Enter')doLogin(this.value.trim().toUpperCase())">
     </div>
     <button class="btnp" onclick="doLogin($('li').value.trim().toUpperCase())">Continue</button>
-    <p class="note">Trouble? Contact :pcsharma@paralleldots.com</p>
+    <p class="note">Trouble? Contact : pcsharma@paralleldots.com</p>
   </div>`;
   setTimeout(()=>{ const el=$("li"); if(el) el.focus(); },100);
 }
@@ -501,24 +501,18 @@ function doSubmit(){
   };
 
   if(APPS_URL){
-    const form = document.createElement('form');
-form.method = 'POST';
-form.action = APPS_URL;
-form.target = 'hidden_iframe';
-
-const input = document.createElement('input');
-input.type = 'hidden';
-input.name = 'data';
-input.value = JSON.stringify(payload);
-form.appendChild(input);
-
-const iframe = document.createElement('iframe');
-iframe.name = 'hidden_iframe';
-iframe.style.display = 'none';
-iframe.onload = function() { showSuccess(); };
-document.body.appendChild(iframe);
-document.body.appendChild(form);
-form.submit();
+    fetch(APPS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {"Content-Type": "text/plain"},
+      body: JSON.stringify(payload)
+    })
+    .then(()=>{ showSuccess(); })
+    .catch(()=>{ showSuccess(); });
+  } else {
+    showSuccess();
+  }
+}
 
 // ── SCREEN: SUCCESS ───────────────────────────────────
 function showSuccess(){
