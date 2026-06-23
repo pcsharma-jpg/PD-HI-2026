@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Health Insurance Enrollment – ParallelDots FY 2026-27</title>
+<title>Health Insurance Enrollment – ParallelDots FY 2025-26</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#eef2f7;min-height:100vh;padding:16px}
@@ -73,7 +73,6 @@ hr{border:none;border-top:1px solid #e8eaed;margin:16px 0}
 <div class="card">
 <div class="hdr">
   <h1>Health Insurance Enrollment</h1>
-  <p>ParallelDots Technology Pvt Ltd &nbsp;·&nbsp; FY 2025-26 &nbsp;·&nbsp; Sum Insured ₹5,00,000</p>
 </div>
 <div class="body" id="app"></div>
 </div>
@@ -85,7 +84,7 @@ const DB=
 //          sn/sg/sd = spouse name/gender/dob
 //          c1n/c1g/c1d = child1, c2n/c2g/c2d = child2
 
-let APPS_URL="https://script.google.com/macros/s/AKfycbybTxWh-cqoF3w39itWQ8YRbQFWcp1x8K2t8ezk_hdfmZOfHS_5pmKYKQXUkYciWuhI/exec", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
+let APPS_URL="", emp=null, fd={}, coverage=null, famMode=null, isNewEmp=false;
 const app=()=>document.getElementById("app");
 const $=id=>document.getElementById(id);
 
@@ -111,7 +110,7 @@ function showLogin(){
         onkeydown="if(event.key==='Enter')doLogin(this.value.trim().toUpperCase())">
     </div>
     <button class="btnp" onclick="doLogin($('li').value.trim().toUpperCase())">Continue</button>
-    <p class="note">Trouble? Contact HR: pcsharma@paralleldots.com</p>
+    <p class="note">Trouble? Contact HR: hr@paralleldots.com</p>
   </div>`;
   setTimeout(()=>{ const el=$("li"); if(el) el.focus(); },100);
 }
@@ -217,7 +216,7 @@ function showReview(){
     <span>I confirm all details above are correct. I understand that incorrect information may affect my insurance coverage.</span>
   </label>
   <button class="btnp" id="btn-sub" disabled onclick="doSubmit()">Confirm &amp; Submit</button>
-  <p class="note">Deadline: <strong>10 JUL 2026</strong> &nbsp;·&nbsp; Queries: hr@paralleldots.com</p>`;
+  <p class="note">Deadline: <strong>INSERT DATE HERE</strong> &nbsp;·&nbsp; Queries: hr@paralleldots.com</p>`;
 }
 
 function buildFamCard(){
@@ -383,16 +382,18 @@ function editSection(sec){
     $("e-d").value = fd.dob;
   }
   if(sec==="family"){
-    $("e-sn").value  = fd.spouseName;
-    $("e-sg").value  = fd.spouseGender;
-    $("e-sd").value  = fd.spouseDob;
-    $("e-c1n").value = fd.child1Name;
-    $("e-c1g").value = fd.child1Gender;
-    $("e-c1d").value = fd.child1Dob;
-    $("e-c2n").value = fd.child2Name;
-    $("e-c2g").value = fd.child2Gender;
-    $("e-c2d").value = fd.child2Dob;
-    if(fd.spouseName||fd.child1Name||fd.child2Name) setFam(true);
+    setTimeout(()=>{
+      if($("f-sn")) $("f-sn").value  = fd.spouseName   ||"";
+      if($("f-sg")) $("f-sg").value  = fd.spouseGender ||"";
+      if($("f-sd")) $("f-sd").value  = fd.spouseDob    ||"";
+      if($("f-c1n"))$("f-c1n").value = fd.child1Name   ||"";
+      if($("f-c1g"))$("f-c1g").value = fd.child1Gender ||"";
+      if($("f-c1d"))$("f-c1d").value = fd.child1Dob    ||"";
+      if($("f-c2n"))$("f-c2n").value = fd.child2Name   ||"";
+      if($("f-c2g"))$("f-c2g").value = fd.child2Gender ||"";
+      if($("f-c2d"))$("f-c2d").value = fd.child2Dob    ||"";
+      if(fd.spouseName||fd.child1Name||fd.child2Name) setFam(true);
+    },50);
   }
 }
 
