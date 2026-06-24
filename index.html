@@ -504,11 +504,19 @@ function doSubmit(){
   if(APPS_URL){
     const encoded = encodeURIComponent(JSON.stringify(payload));
     const url = APPS_URL + '?data=' + encoded;
-    const img = new Image();
-    img.onload = function(){ showSuccess(); };
-    img.onerror = function(){ showSuccess(); };
-    img.src = url;
-    setTimeout(function(){ showSuccess(); }, 3000);
+    
+    // Method 1: fetch no-cors - credentials:omit is KEY for Workspace users
+    fetch(url, {method:'GET', mode:'no-cors', credentials:'omit'}).catch(function(){});
+    
+    // Method 2: Script tag - completely bypasses CORS and auth
+    var s = document.createElement('script');
+    s.src = url + '&cb=' + Date.now();
+    s.onerror = function(){ try{document.body.removeChild(s);}catch(e){} };
+    s.onload  = function(){ try{document.body.removeChild(s);}catch(e){} };
+    document.body.appendChild(s);
+    
+    // Show success after 2.5 seconds
+    setTimeout(function(){ showSuccess(); }, 2500);
   } else {
     showSuccess();
   }
